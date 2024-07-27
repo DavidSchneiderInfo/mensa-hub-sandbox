@@ -1,3 +1,0 @@
-[submodule "protected/modules/BigBrother"]
-	path = protected/modules/BigBrother
-	url = git@github.com:DavidSchneiderInfo/humhub-bigbrother.git
