@@ -27,7 +27,6 @@ nbproject
 .vscode
 .php-cs-fixer.cache
 
-themes/*
 !themes/HumHub
 
 favicon.ico
