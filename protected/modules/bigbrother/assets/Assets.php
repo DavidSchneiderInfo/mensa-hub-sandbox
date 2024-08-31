@@ -27,7 +27,6 @@ class Assets extends AssetBundle
     ];
 
     public $js = [
-        'js/humhub.BigBrother.js'
     ];
 
 }

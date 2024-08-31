@@ -10,11 +10,6 @@ return [
 	'namespace' => 'BigBrother',
 	'events' => [
 		[
-			'class' => TopMenu::class,
-			'event' => TopMenu::EVENT_INIT,
-			'callback' => [Events::class, 'onTopMenuInit'],
-		],
-		[
 			'class' => AdminMenu::class,
 			'event' => AdminMenu::EVENT_INIT,
 			'callback' => [Events::class, 'onAdminMenuInit']
