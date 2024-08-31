@@ -1,0 +1,12 @@
+{
+    "id": "BigBrother",
+    "name": "BigBrother",
+    "description": "A custom HumHub module created for Mensa International to help the web-team moderating user-generated content.",
+    "keywords": [
+    ],
+    "version": "0.1",
+    "humhub": {
+        "minVersion": "1.2"
+    },
+    "screenshots": ["assets/screen1.jpg"]
+}
