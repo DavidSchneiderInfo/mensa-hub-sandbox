@@ -51,7 +51,7 @@ class Events
                 'data-action-click' => 'ui.modal.load',
                 'data-action-click-url' => Url::to([
                     '/BigBrother/report', 'contentId' => $menu->comment->content->id,
-                    'commentId' => $menu->comment->id
+                    'commentId' => $menu->comment->id,
                 ])
             ],
             'sortOrder' => 1000,

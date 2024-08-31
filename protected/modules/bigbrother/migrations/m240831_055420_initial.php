@@ -14,6 +14,14 @@ class m240831_055420_initial extends Migration
     {
         $this->createTable('{{%reported_content}}', [
             'id' => $this->primaryKey(),
+            'content_id' => $this->integer()->notNull(),
+            'comment_id' => $this->integer(),
+            'reason' => 'tinyint(4) UNSIGNED NOT NULL',
+            'message' => $this->text(),
+            'created_at' => $this->dateTime()->defaultValue(null),
+            'created_by' => $this->integer()->notNull(),
+            'updated_at' => $this->dateTime()->defaultValue(null),
+            'updated_by' => $this->integer()->notNull()
         ]);
     }
 
