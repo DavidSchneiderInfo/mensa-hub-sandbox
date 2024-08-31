@@ -23,7 +23,6 @@ use humhub\widgets\ModalDialog;
 <div class="modal-footer">
     <?= ModalButton::submitModal(null, 'Send') ?>
     <?= ModalButton::cancel() ?>
-    <pre><?php var_dump($model) ?></pre>
 </div>
 <?php ActiveForm::end() ?>
 <?php ModalDialog::end(); ?>
