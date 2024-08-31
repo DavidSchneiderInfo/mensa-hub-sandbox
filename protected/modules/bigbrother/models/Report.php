@@ -86,7 +86,7 @@ class Report extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'reason' => Yii::t('ReportcontentModule.base', 'For what reason do you want to report this content?')
+            'reason' => 'For what reason do you want to report this content?'
         ];
     }
 
@@ -161,18 +161,18 @@ class Report extends ActiveRecord
         $reasons = [];
 
         if ($this->content->container instanceof Space) {
-            $reasons[Report::REASON_NOT_BELONG] = Yii::t('ReportcontentModule.base', 'Wrong Space');
+            $reasons[Report::REASON_NOT_BELONG] = 'Wrong Space';
         }
 
-        $reasons[Report::REASON_INCORRECT] = Yii::t('ReportcontentModule.base', 'Misleading');
-        $reasons[Report::REASON_OFFENSIVE] = Yii::t('ReportcontentModule.base', 'Offensive');
-        $reasons[Report::REASON_SPAM] = Yii::t('ReportcontentModule.base', 'Spam');
+        $reasons[Report::REASON_INCORRECT] = 'Misleading';
+        $reasons[Report::REASON_OFFENSIVE] = 'Offensive';
+        $reasons[Report::REASON_SPAM] = 'Spam';
 
         if ($selectable) {
             return $reasons;
         }
 
-        $reasons[Report::REASON_FILTER] = Yii::t('ReportcontentModule.base', 'Profanity Filter');
+        $reasons[Report::REASON_FILTER] = 'Profanity Filter';
 
         return $reasons;
     }

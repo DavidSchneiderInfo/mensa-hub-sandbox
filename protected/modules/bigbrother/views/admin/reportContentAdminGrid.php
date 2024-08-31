@@ -18,7 +18,7 @@ use humhub\libs\Html;
 <?php if (empty($reportedContent)) : ?>
     <br/>
     <p class="alert alert-success">
-        <?= Yii::t('ReportcontentModule.base', 'There is no content reported for review.') ?>
+        There is no content reported for review.
     </p>
 <?php else : ?>
     <?= GridView::widget([
@@ -48,7 +48,7 @@ use humhub\libs\Html;
                         ],
                         [
                             'class' => 'btn btn-sm btn-primary tt',
-                            'title' => Yii::t('ReportcontentModule.base', 'Review'),
+                            'title' => 'Review',
                             'data-ui-loader' => '1'
                         ]
                     );
@@ -80,7 +80,7 @@ use humhub\libs\Html;
 
                     $review = Html::a('<i aria-hidden="true" class="fa fa-eye"></i>', $report->content->getUrl(), [
                         'class' => 'btn btn-sm btn-primary tt',
-                        'title' => Yii::t('ReportcontentModule.base', 'Review'),
+                        'title' => 'Review',
                         'data-ui-loader' => '1'
                     ]);
 
