@@ -3,17 +3,16 @@
 namespace BigBrother\controllers;
 
 use BigBrother\models\Report;
+use BigBrother\services\ReportMessageService;
 use humhub\modules\admin\components\Controller;
 use humhub\modules\comment\models\Comment;
 use humhub\modules\content\models\Content;
-use humhub\modules\post\models\Post;
 use humhub\widgets\ModalClose;
 use Yii;
 use yii\helpers\Url;
 
 class ReportController extends Controller
 {
-
     /**
      * Render admin only page
      *
@@ -28,7 +27,7 @@ class ReportController extends Controller
             ? $this->getContentMessage($contentId)
             : Comment::findOne(['id'=>$commentId])->message;
 
-        $model = Report::findOne(['content_id' => $contentId, 'comment_id' => $commentId, 'created_by' => $userId, 'message' => $message]);
+        $model = Report::findOne(['content_id' => $contentId, 'comment_id' => $commentId, 'message' => $message]);
         if($model === null) {
             $model = new Report();
             $model->content_id = $contentId;
@@ -46,14 +45,13 @@ class ReportController extends Controller
         ]);
     }
 
-    private function getContentMessage(int $contentId): string
+    private function getContentMessage(int $contentId): mixed
     {
-        $content = Content::findOne(['id' => $contentId])->getModel();
+        $content = Content::findOne(['id' => $contentId]);
 
-        return match (get_class($content)) {
-            Post::class => $content->getAttribute('message'),
-            default => "Unimplemented model " . get_class($content),
-        };
+        $service = new ReportMessageService($content);
+
+        return $service->getMessage();
     }
 
     public function actionAppropriate()

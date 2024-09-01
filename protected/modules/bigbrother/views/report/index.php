@@ -1,14 +1,12 @@
 <?php
 
-use humhub\modules\reportcontent\models\ReportContent;
+use BigBrother\models\Report;
 use humhub\modules\ui\form\widgets\ActiveForm;
 use humhub\widgets\ModalButton;
 use humhub\widgets\ModalDialog;
 
 /**
- * @var $content \humhub\modules\content\models\Content
- * @var $object \humhub\modules\content\components\ContentActiveRecord
- * @var $model ReportContent
+ * @var $model Report
  */
 
 ?>

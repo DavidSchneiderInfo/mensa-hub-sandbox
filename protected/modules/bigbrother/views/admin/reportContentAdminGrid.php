@@ -38,21 +38,9 @@ use humhub\libs\Html;
             [
                 'class' => DataColumn::class,
                 'format' => 'raw',
-                'label' => 'Content',
+                'label' => 'Reporter',
                 'value' => function (Report $report) {
-                    $link = Html::a(
-                        '<i aria-hidden="true" class="fa fa-eye"></i>',
-                        [
-                            '/BigBrother/admin/view',
-                            'id' => $report->id
-                        ],
-                        [
-                            'class' => 'btn btn-sm btn-primary tt',
-                            'title' => 'Review',
-                            'data-ui-loader' => '1'
-                        ]
-                    );
-                    return substr($report->message, 0, 60) . $link;
+                    return UserImage::widget(['user' => $report->createdBy, 'width' => 34]);
                 }
             ],
 
@@ -60,7 +48,6 @@ use humhub\libs\Html;
             [
                 'class' => DataColumn::class,
                 'label' => 'Reason',
-                'options' => ['style' => 'width:120px;'],
                 'format' => 'raw',
                 'value' => function (Report $report) {
                     return '<strong>' . Html::encode($report->getReason()) . '</strong>';
@@ -71,7 +58,7 @@ use humhub\libs\Html;
             [
                 'class' => DataColumn::class,
                 'format' => 'raw',
-                'options' => ['style' => 'width:85px;'],
+                'label' => 'Actions',
                 'value' => function ($report) use ($isAdmin) {
                     $approve = Html::a(
                         '<i class="fa fa-check-square-o"></i>', ['/BigBrother/report/appropriate', 'id' => $report->id, 'admin' => $isAdmin],
@@ -80,11 +67,24 @@ use humhub\libs\Html;
 
                     $review = Html::a('<i aria-hidden="true" class="fa fa-eye"></i>', $report->content->getUrl(), [
                         'class' => 'btn btn-sm btn-primary tt',
-                        'title' => 'Review',
+                        'title' => 'Review current',
                         'data-ui-loader' => '1'
                     ]);
 
-                    return $approve . ' ' . $review;
+                    $showReport = Html::a(
+                        '<i aria-hidden="true" class="fa fa-history"></i>',
+                        [
+                            '/BigBrother/admin/view',
+                            'id' => $report->id
+                        ],
+                        [
+                            'class' => 'btn btn-sm btn-primary tt',
+                            'title' => 'Review reported',
+                            'data-ui-loader' => '1'
+                        ]
+                    );
+
+                    return $approve . ' ' . $review . ' ' . $showReport;
                 }
             ],
         ],
