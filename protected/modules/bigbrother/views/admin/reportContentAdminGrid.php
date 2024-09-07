@@ -54,6 +54,16 @@ use humhub\libs\Html;
                 }
             ],
 
+            // Reason
+            [
+                'class' => DataColumn::class,
+                'label' => 'Status',
+                'format' => 'raw',
+                'value' => function (Report $report) {
+                    return '<strong>' . Html::encode($report->getStatus()) . '</strong>';
+                }
+            ],
+
             // actions
             [
                 'class' => DataColumn::class,
@@ -72,19 +82,19 @@ use humhub\libs\Html;
                     ]);
 
                     $showReport = Html::a(
-                        '<i aria-hidden="true" class="fa fa-history"></i>',
+                        '<i aria-hidden="true" class="fa fa-stethoscope"></i>',
                         [
                             '/BigBrother/admin/view',
                             'id' => $report->id
                         ],
                         [
                             'class' => 'btn btn-sm btn-primary tt',
-                            'title' => 'Review reported',
+                            'title' => 'Review Report',
                             'data-ui-loader' => '1'
                         ]
                     );
 
-                    return $approve . ' ' . $review . ' ' . $showReport;
+                    return $showReport;
                 }
             ],
         ],

@@ -2,10 +2,12 @@
 
 namespace BigBrother\controllers;
 
+use BigBrother\enums\ReportStatus;
 use BigBrother\models\Report;
 use humhub\modules\admin\components\Controller;
 use yii\data\Pagination;
 use Yii;
+use yii\db\Exception;
 
 class AdminController extends Controller
 {
@@ -35,6 +37,32 @@ class AdminController extends Controller
         return $this->render('view', [
             'report' => $report,
         ]);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function actionClose()
+    {
+        $reportId = Yii::$app->request->get('id');
+        $report = Report::findOne(['id' => $reportId]);
+        $report->status = ReportStatus::Closed;
+        $report->save();
+
+        return $this->redirect('/BigBrother/admin/index');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function actionOpen()
+    {
+        $reportId = Yii::$app->request->get('id');
+        $report = Report::findOne(['id' => $reportId]);
+        $report->status = ReportStatus::Open;
+        $report->save();
+
+        return $this->redirect(['/BigBrother/admin/view', 'id'=> $reportId]);
     }
 }
 

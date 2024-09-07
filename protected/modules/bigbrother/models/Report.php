@@ -2,6 +2,7 @@
 
 namespace BigBrother\models;
 
+use BigBrother\enums\ReportStatus;
 use humhub\components\ActiveRecord;
 use humhub\modules\comment\models\Comment;
 use humhub\modules\content\permissions\ManageContent;
@@ -156,6 +157,11 @@ class Report extends ActiveRecord
         return $this->getReasons()[$this->reason] ?? '';
     }
 
+    public function getStatus(): string
+    {
+        return ReportStatus::toString($this->status);
+    }
+
     public function getReasons($selectable = false): array
     {
         $reasons = [];
@@ -209,6 +215,13 @@ class Report extends ActiveRecord
     public function getComment()
     {
         return $this->hasOne(Comment::class, ['id' => 'comment_id']);
+    }
+
+    public function getType(): string
+    {
+        return $this->comment_id != null
+            ? Comment::class
+            : get_class($this->content->getModel());
     }
 }
 

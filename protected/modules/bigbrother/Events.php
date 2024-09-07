@@ -2,7 +2,9 @@
 
 namespace  BigBrother;
 
+use BigBrother\enums\ReportStatus;
 use BigBrother\helpers\Permission;
+use BigBrother\models\Report;
 use BigBrother\widgets\ReportContentLink;
 use humhub\modules\comment\widgets\CommentControls;
 use humhub\modules\ui\menu\MenuLink;
@@ -18,11 +20,17 @@ class Events
      */
     public static function onAdminMenuInit($event)
     {
+        $count = Report::find()
+            ->where(['status'=>ReportStatus::Open])
+            ->count();
+        $badge = $count>0
+            ? '<div class="label label-danger label-notifications">'.$count.'</div>'
+            : '';
         $event->sender->addItem([
-            'label' => 'BigBrother',
+            'label' => 'BigBrother '.$badge,
             'url' => Url::to(['/BigBrother/admin']),
             'group' => 'manage',
-            'icon' => '<i class="fa fa-adjust"></i>',
+            'icon' => '<i class="fa fa-exclamation-triangle"></i>',
             'isActive' => (Yii::$app->controller->module && Yii::$app->controller->module->id == 'BigBrother' && Yii::$app->controller->id == 'admin'),
             'sortOrder' => 99999,
         ]);
