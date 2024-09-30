@@ -19,6 +19,16 @@ class AdminController extends Controller
     public function actionIndex()
     {
         $query = Report::find()->readable();
+        $search = array_merge(Yii::$app->session->get('bigbrother.search') ?? [
+            'status'=> [
+                ReportStatus::Open,
+            ],
+        ], Yii::$app->request->queryParams);
+
+        if(array_key_exists('status', $search)) {
+            $query->where(['in', 'status', $search['status']]);
+        }
+
         $countQuery = clone $query;
         $pagination = new Pagination(['totalCount' => $countQuery->count(), 'pageSize' => 20]);
         $query->offset($pagination->offset)->limit($pagination->limit);
@@ -26,6 +36,7 @@ class AdminController extends Controller
         return $this->render('index', [
             'reportedContent' => $query->all(),
             'pagination' => $pagination,
+            'search' => $search,
         ]);
     }
 
