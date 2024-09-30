@@ -17,8 +17,6 @@ function isChecked(array $search, $status) : bool
     <div class="panel panel-default">
         <div class="panel-heading"><strong>BigBrother</strong></div>
         <div class="panel-body">
-            <p><?= Yii::t('BigBrotherModule.base', 'Welcome to the admin only area.') ?></p>
-
             <form>
                 <div class="checkbox">
                     <label>
@@ -30,9 +28,8 @@ function isChecked(array $search, $status) : bool
                         <input type="checkbox" name="status[]" value="<?= ReportStatus::Closed ?>" <?= isChecked($search, ReportStatus::Closed) ? 'checked="checked"' : '' ?>/><?= ReportStatus::toString(ReportStatus::Closed) ?>
                     </label>
                 </div>
-                <button type="submit" class="btn btn-default">Submit</button>
+                <button type="submit" class="btn btn-default">Filter</button>
             </form>
-
             <?= $this->render('/admin/reportContentAdminGrid', ['isAdmin' => 1, 'reportedContent' => $reportedContent, 'pagination' => $pagination]) ?>
         </div>
     </div>

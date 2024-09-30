@@ -142,45 +142,33 @@ $isAdmin = Yii::$app->user->isAdmin();
             <strong>Actions</strong>
         </div>
         <div class="panel-body">
-            <table class="table table-condensed">
-                <tr>
-                    <td>
-                        <?php
-                        echo Html::a(
-                            'Deescalate <i class="fa fa-check-square-o"></i>', ['/BigBrother/report/appropriate', 'id' => $report->id, 'admin' => $isAdmin],
-                            ['data-method' => 'POST', 'class' => 'btn btn-success btn-sm tt', 'data-original-title' => 'Deescalate']
-                        );
-                        ?>
-                    </td>
-                    <td>
-                        <?php
-                        echo $report->status == \BigBrother\enums\ReportStatus::Closed
-                            ? Html::a(
-                                'Open the ticket <i class="fa fa-check-square-o"></i>', ['/BigBrother/admin/open', 'id'=>$report->id],
-                                ['data-method' => 'POST', 'class' => 'btn btn-primary btn-sm tt', 'data-original-title' => 'Open the ticket']
-                            )
-                            : Html::a(
-                                'Close the ticket <i class="fa fa-check-square-o"></i>', ['/BigBrother/admin/close', 'id'=>$report->id],
-                                ['data-method' => 'POST', 'class' => 'btn btn-primary btn-sm tt', 'data-original-title' => 'Close the ticket']
-                            );
-                        ?>
-                    </td>
-                    <td>
-                        <?php
-                        echo Html::a(
-                            'Something else<i class="fa fa-check-square-o"></i>', ['', 'id'=>$report->id], ['class' => 'btn btn-primary btn-sm tt']
-                        );
-                        ?>
-                    </td>
-                    <td>
-                        <?php
-                        echo Html::a(
-                            'Something else<i class="fa fa-check-square-o"></i>', ['', 'id'=>$report->id], ['class' => 'btn btn-primary btn-sm tt']
-                        );
-                        ?>
-                    </td>
-                </tr>
-            </table>
+            <?php
+                $action_link = $report->status == \BigBrother\enums\ReportStatus::Closed
+                    ? Html::a(
+                        'Re-Open report <i class="fa fa-envelope-open"></i>', ['/BigBrother/admin/open', 'id'=>$report->id],
+                        ['data-method' => 'POST', 'class' => 'btn btn-primary btn-sm tt', 'data-original-title' => 'Open the report again']
+                    )
+                    : Html::a(
+                        'Close report <i class="fa fa-envelope"></i>', ['/BigBrother/admin/close', 'id'=>$report->id],
+                        ['data-method' => 'POST', 'class' => 'btn btn-primary btn-sm tt', 'data-original-title' => 'Tag the report as solved']
+                    );
+                $delete_link = Html::a(
+                    'Delete Report <i class="fa fa-trash"></i>', ['/BigBrother/report/appropriate', 'id' => $report->id, 'admin' => $isAdmin],
+                    ['data-method' => 'POST', 'class' => 'btn btn-success btn-sm tt', 'data-original-title' => 'Delete report and all data']
+                );
+            ?>
+            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                <div class="btn-group" role="group">
+                    <?php
+                    echo $action_link;
+                    ?>
+                </div>
+                <div class="btn-group" role="group">
+                    <?php
+                    echo $delete_link;
+                    ?>
+                </div>
+            </div>
         </div>
     </div>
 </div>
