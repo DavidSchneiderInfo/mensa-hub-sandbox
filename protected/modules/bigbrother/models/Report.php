@@ -28,7 +28,8 @@ use yii\base\InvalidArgumentException;
  * @property string $message
  * @property string $created_at
  * @property integer $created_by
- * @property boolean $system_admin_only
+ * @property string $updated_at
+ * @property integer $updated_by
  *
  * @property User $user
  * @property Content $content
@@ -96,16 +97,6 @@ class Report extends ActiveRecord
         $content = Content::findOne(['id' => $this->content_id]);
         $contentContainer = $content->container;
 
-        // If we report a space admin post, we create a system admin only report (only visible in admin area)
-        /** @var Space $contentContainer */
-        if ($contentContainer instanceof Space) {
-            $membership = $contentContainer->getMembership($content->created_by);
-
-            if ($membership && $membership->isPrivileged()) {
-                $this->system_admin_only = true;
-            }
-        }
-
         if (!empty($this->comment_id)) {
             /** @var Comment $comment */
             $comment = Comment::find()->where(['id' => $this->comment_id])->one();
@@ -128,7 +119,7 @@ class Report extends ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         if ($insert) {
-            if (empty($this->system_admin_only) && $this->content->container instanceof Space) {
+            if ($this->content->container instanceof Space) {
                 $query = Membership::getSpaceMembersQuery($this->content->container)
                     ->andWhere(['IN', 'group_id', [Space::USERGROUP_OWNER, Space::USERGROUP_ADMIN, Space::USERGROUP_MODERATOR]]);
             } else {
@@ -191,12 +182,6 @@ class Report extends ActiveRecord
 
         if (Permission::canManageReports($this->content->container, $user)) {
             return true;
-        }
-
-        if (empty($this->system_admin_only)) {
-            if ($this->content->container->getPermissionManager($user)->can(new ManageContent())) {
-                return true;
-            }
         }
 
         return false;

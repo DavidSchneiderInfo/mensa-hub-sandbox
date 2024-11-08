@@ -25,6 +25,11 @@ function isChecked(array $search, $status) : bool
                 </div>
                 <div class="checkbox">
                     <label>
+                        <input type="checkbox" name="status[]" value="<?= ReportStatus::Removed ?>" <?= isChecked($search, ReportStatus::Removed) ? 'checked="checked"' : '' ?>/><?= ReportStatus::toString(ReportStatus::Removed) ?>
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
                         <input type="checkbox" name="status[]" value="<?= ReportStatus::Closed ?>" <?= isChecked($search, ReportStatus::Closed) ? 'checked="checked"' : '' ?>/><?= ReportStatus::toString(ReportStatus::Closed) ?>
                     </label>
                 </div>

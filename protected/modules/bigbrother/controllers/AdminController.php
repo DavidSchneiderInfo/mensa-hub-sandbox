@@ -75,5 +75,21 @@ class AdminController extends Controller
 
         return $this->redirect(['/BigBrother/admin/view', 'id'=> $reportId]);
     }
+
+    /**
+     * @throws Exception
+     */
+    public function actionRemove()
+    {
+        $reportId = Yii::$app->request->get('id');
+        $report = Report::findOne(['id' => $reportId]);
+
+        $report->content->delete();
+
+        $report->status = ReportStatus::Removed;
+        $report->save();
+
+        return $this->redirect('/BigBrother/admin/index');
+    }
 }
 
