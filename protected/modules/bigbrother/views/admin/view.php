@@ -1,5 +1,6 @@
 <?php
 
+use BigBrother\enums\ReportStatus;
 use humhub\modules\polls\models\Poll;
 use humhub\widgets\Link;
 use humhub\libs\Html;
@@ -131,44 +132,57 @@ $isAdmin = Yii::$app->user->isAdmin();
                     }
                 ?>
             </div>
+
             <?php
-            echo Html::a(
-                'Show current content', [$report->content->getUrl()],
-                ['class' => 'btn btn-warning btn-sm', 'data-original-title' => 'Show current content']
-            );
-            ?>
-        </div>
-        <div class="panel-heading">
-            <strong>Actions</strong>
-        </div>
-        <div class="panel-body">
-            <?php
-                $action_link = $report->status == \BigBrother\enums\ReportStatus::Closed
-                    ? Html::a(
-                        'Re-Open report <i class="fa fa-envelope-open"></i>', ['/BigBrother/admin/open', 'id'=>$report->id],
-                        ['data-method' => 'POST', 'class' => 'btn btn-primary btn-sm tt', 'data-original-title' => 'Open the report again']
-                    )
-                    : Html::a(
-                        'Close report <i class="fa fa-envelope"></i>', ['/BigBrother/admin/close', 'id'=>$report->id],
-                        ['data-method' => 'POST', 'class' => 'btn btn-primary btn-sm tt', 'data-original-title' => 'Tag the report as solved']
+                if($report->status != ReportStatus::Removed)
+                    echo Html::a(
+                        'Show current content', [$report->content->getUrl()],
+                        ['class' => 'btn btn-warning btn-sm', 'data-original-title' => 'Show current content']
                     );
-                $delete_link = Html::a(
-                    'Delete Report <i class="fa fa-trash"></i>', ['/BigBrother/report/appropriate', 'id' => $report->id, 'admin' => $isAdmin],
-                    ['data-method' => 'POST', 'class' => 'btn btn-success btn-sm tt', 'data-original-title' => 'Delete report and all data']
-                );
             ?>
-            <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                <div class="btn-group" role="group">
-                    <?php
-                    echo $action_link;
-                    ?>
-                </div>
-                <div class="btn-group" role="group">
-                    <?php
-                    echo $delete_link;
-                    ?>
+        </div>
+        <?php if($report->status != ReportStatus::Removed) : ?>
+            <div class="panel-heading">
+                <strong>Actions</strong>
+            </div>
+            <div class="panel-body">
+                <?php
+                    $action_link = $report->status == ReportStatus::Closed
+                        ? Html::a(
+                            'Re-Open report <i class="fa fa-envelope-open"></i>', ['/BigBrother/admin/open', 'id'=>$report->id],
+                            ['data-method' => 'POST', 'class' => 'btn btn-primary btn-sm tt', 'data-original-title' => 'Open the report again']
+                        )
+                        : Html::a(
+                            'Close report <i class="fa fa-envelope"></i>', ['/BigBrother/admin/close', 'id'=>$report->id],
+                            ['data-method' => 'POST', 'class' => 'btn btn-primary btn-sm tt', 'data-original-title' => 'Tag the report as solved']
+                        );
+                    $remove_link = Html::a(
+                        'Remove content <i class="fa fa-envelope"></i>', ['/BigBrother/admin/remove', 'id'=>$report->id],
+                        ['data-method' => 'POST', 'class' => 'btn btn-primary btn-sm tt', 'data-original-title' => 'Remove the content']
+                    );
+                    $delete_link = Html::a(
+                        'Delete Report <i class="fa fa-trash"></i>', ['/BigBrother/report/appropriate', 'id' => $report->id, 'admin' => $isAdmin],
+                        ['data-method' => 'POST', 'class' => 'btn btn-success btn-sm tt', 'data-original-title' => 'Delete report and all data']
+                    );
+                ?>
+                <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                    <div class="btn-group" role="group">
+                        <?php
+                        echo $action_link;
+                        ?>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <?php
+                        echo $delete_link;
+                        ?>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <?php
+                        echo $remove_link;
+                        ?>
+                    </div>
                 </div>
             </div>
-        </div>
+        <?php endif; ?>
     </div>
 </div>
